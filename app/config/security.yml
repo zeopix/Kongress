@@ -18,5 +18,5 @@ security:
                  handlers: ["fos_facebook.logout_handler"]
 
      access_control:
-         - { path: ^/secured/.*, role: [IS_AUTHENTICATED_FULLY] } # This is the route secured with fos_facebook
+         - { path: ^/facebook/.*, role: [IS_AUTHENTICATED_FULLY] } # This is the route secured with fos_facebook
          - { path: ^/.*, role: [IS_AUTHENTICATED_ANONYMOUSLY] }

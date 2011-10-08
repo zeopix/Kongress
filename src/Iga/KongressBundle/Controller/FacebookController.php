@@ -14,6 +14,8 @@ class FacebookController extends Controller
      */
     public function indexAction()
     {
-	return new Response("hi facebook user");
+	return $this->render('IgaKongressBundle:Facebook:index.html.twig',Array(
+            'data' => 'value'
+        ));
     }
 }
