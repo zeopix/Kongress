@@ -1,0 +1,22 @@
+security:
+     factories:
+         - "%kernel.root_dir%/../vendor/bundles/FOS/FacebookBundle/Resources/config/security_factories.xml"
+
+     providers:
+         fos_facebook:
+             id: fos_facebook.auth
+
+     firewalls:
+         public:
+              # since anonymous is allowed users will not be forced to login
+             pattern:   ^/.*
+             fos_facebook:
+                 app_url: "http://apps.facebook.com/kongress"
+                 server_url: "http://kongress.in/"
+             anonymous: true
+             logout:
+                 handlers: ["fos_facebook.logout_handler"]
+
+     access_control:
+         - { path: ^/facebook/.*, role: [IS_AUTHENTICATED_FULLY] } # This is the route secured with fos_facebook
+         - { path: ^/.*, role: [IS_AUTHENTICATED_ANONYMOUSLY] }
