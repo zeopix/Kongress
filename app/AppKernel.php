@@ -19,6 +19,8 @@ class AppKernel extends Kernel
             new JMS\SecurityExtraBundle\JMSSecurityExtraBundle(),
             new FOS\FacebookBundle\FOSFacebookBundle(),
             new Iga\KongressBundle\IgaKongressBundle(),
+	    new Etcpasswd\OAuthBundle\EtcpasswdOAuthBundle(),
+
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
