@@ -100,6 +100,67 @@ class appdevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
             return array (  '_controller' => 'Iga\\KongressBundle\\Controller\\FacebookController::indexAction',  '_route' => 'iga_kongress_facebook_index',);
         }
 
+        // secured
+        if (rtrim($pathinfo, '/') === '/secured') {
+            if (substr($pathinfo, -1) !== '/') {
+                return $this->redirect($pathinfo.'/', 'secured');
+            }
+            return array (  '_controller' => 'Iga\\KongressBundle\\Controller\\SecuredController::indexAction',  '_route' => 'secured',);
+        }
+
+        // user
+        if (rtrim($pathinfo, '/') === '/user') {
+            if (substr($pathinfo, -1) !== '/') {
+                return $this->redirect($pathinfo.'/', 'user');
+            }
+            return array (  '_controller' => 'Iga\\KongressBundle\\Controller\\UserController::indexAction',  '_route' => 'user',);
+        }
+
+        // user_show
+        if (0 === strpos($pathinfo, '/user') && preg_match('#^/user/(?P<id>[^/]+?)/show$#xs', $pathinfo, $matches)) {
+            return array_merge($this->mergeDefaults($matches, array (  '_controller' => 'Iga\\KongressBundle\\Controller\\UserController::showAction',)), array('_route' => 'user_show'));
+        }
+
+        // user_new
+        if ($pathinfo === '/user/new') {
+            return array (  '_controller' => 'Iga\\KongressBundle\\Controller\\UserController::newAction',  '_route' => 'user_new',);
+        }
+
+        // user_create
+        if ($pathinfo === '/user/create') {
+            if ($this->context->getMethod() != 'POST') {
+                $allow[] = 'POST';
+                goto not_user_create;
+            }
+            return array (  '_controller' => 'Iga\\KongressBundle\\Controller\\UserController::createAction',  '_route' => 'user_create',);
+        }
+        not_user_create:
+
+        // user_edit
+        if (0 === strpos($pathinfo, '/user') && preg_match('#^/user/(?P<id>[^/]+?)/edit$#xs', $pathinfo, $matches)) {
+            return array_merge($this->mergeDefaults($matches, array (  '_controller' => 'Iga\\KongressBundle\\Controller\\UserController::editAction',)), array('_route' => 'user_edit'));
+        }
+
+        // user_update
+        if (0 === strpos($pathinfo, '/user') && preg_match('#^/user/(?P<id>[^/]+?)/update$#xs', $pathinfo, $matches)) {
+            if ($this->context->getMethod() != 'POST') {
+                $allow[] = 'POST';
+                goto not_user_update;
+            }
+            return array_merge($this->mergeDefaults($matches, array (  '_controller' => 'Iga\\KongressBundle\\Controller\\UserController::updateAction',)), array('_route' => 'user_update'));
+        }
+        not_user_update:
+
+        // user_delete
+        if (0 === strpos($pathinfo, '/user') && preg_match('#^/user/(?P<id>[^/]+?)/delete$#xs', $pathinfo, $matches)) {
+            if ($this->context->getMethod() != 'POST') {
+                $allow[] = 'POST';
+                goto not_user_delete;
+            }
+            return array_merge($this->mergeDefaults($matches, array (  '_controller' => 'Iga\\KongressBundle\\Controller\\UserController::deleteAction',)), array('_route' => 'user_delete'));
+        }
+        not_user_delete:
+
         // _security_check
         if ($pathinfo === '/login_check') {
             return array('_route' => '_security_check');
