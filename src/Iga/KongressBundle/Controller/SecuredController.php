@@ -25,5 +25,7 @@ class SecuredController extends Controller
     {
         return $this->render('IgaKongressBundle:Secured:index.html.twig',array('name' => 'bh'));
     }
+    
+    
 
 }

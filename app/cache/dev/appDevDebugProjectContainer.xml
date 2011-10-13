@@ -1188,7 +1188,7 @@
         <argument type="service" id="etcpasswd_oauth.authentication.provider.oauth.main"/>
         <argument type="service">
           <service class="Symfony\Component\Security\Core\Authentication\Provider\AnonymousAuthenticationProvider" public="false">
-            <argument>4e95c07eec1bf</argument>
+            <argument>4e9756405ce84</argument>
           </service>
         </argument>
       </argument>
@@ -1383,7 +1383,7 @@
         <argument type="service">
           <service class="Symfony\Component\Security\Http\Firewall\AnonymousAuthenticationListener" public="false">
             <argument type="service" id="security.context"/>
-            <argument>4e95c07eec1bf</argument>
+            <argument>4e9756405ce84</argument>
             <argument type="service" id="monolog.logger.security"/>
           </service>
         </argument>

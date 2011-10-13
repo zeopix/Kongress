@@ -24,7 +24,6 @@ class appdevUrlGenerator extends Symfony\Component\Routing\Generator\UrlGenerato
        '_configurator_step' => true,
        '_configurator_final' => true,
        'iga_kongress_default_index' => true,
-       'iga_kongress_facebook_index' => true,
        'secured' => true,
        'user' => true,
        'user_show' => true,
@@ -111,11 +110,6 @@ class appdevUrlGenerator extends Symfony\Component\Routing\Generator\UrlGenerato
     private function getiga_kongress_default_indexRouteInfo()
     {
         return array(array (), array (  '_controller' => 'Iga\\KongressBundle\\Controller\\DefaultController::indexAction',), array (), array (  0 =>   array (    0 => 'text',    1 => '/',  ),));
-    }
-
-    private function getiga_kongress_facebook_indexRouteInfo()
-    {
-        return array(array (), array (  '_controller' => 'Iga\\KongressBundle\\Controller\\FacebookController::indexAction',), array (), array (  0 =>   array (    0 => 'text',    1 => '/facebook/',  ),));
     }
 
     private function getsecuredRouteInfo()

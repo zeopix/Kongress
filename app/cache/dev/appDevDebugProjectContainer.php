@@ -848,7 +848,7 @@ class appDevDebugProjectContainer extends Container
     {
         require_once '/Applications/MAMP/htdocs/Kongress/app/../vendor/facebook/src/base_facebook.php';
 
-        return $this->services['fos_facebook.api'] = new \FOS\FacebookBundle\Facebook\FacebookSessionPersistence(array('appId' => 171229729628517, 'secret' => '3a6ddf3ae3008f0240ed8709c35034b6', 'cookie' => true, 'domain' => NULL), $this->get('session'));
+        return $this->services['fos_facebook.api'] = new \FOS\FacebookBundle\Facebook\FacebookSessionPersistence(array('appId' => '171229729628517', 'secret' => '3a6ddf3ae3008f0240ed8709c35034b6', 'cookie' => true, 'domain' => NULL), $this->get('session'));
     }
 
     /**
@@ -1327,7 +1327,7 @@ class appDevDebugProjectContainer extends Container
 
         $j = new \Buzz\Client\Curl();
 
-        return $this->services['security.firewall.map.context.main'] = new \Symfony\Bundle\SecurityBundle\Security\FirewallContext(array(0 => new \Symfony\Component\Security\Http\Firewall\ChannelListener($f, new \Symfony\Component\Security\Http\EntryPoint\RetryAuthenticationEntryPoint(), $a), 1 => new \Symfony\Component\Security\Http\Firewall\ContextListener($b, array(0 => $this->get('etcpasswd_oauth.user.provider')), 'main', $a, $c), 2 => $h, 3 => new \Etcpasswd\OAuthBundle\Security\Http\Firewall\OAuthListener($b, $e, $i, $g, 'main.facebook', array('client_id' => 171229729628517, 'client_secret' => '3a6ddf3ae3008f0240ed8709c35034b6', 'auth_provider' => 'facebook', 'scope' => '', 'check_path' => '/auth/facebook', 'login_path' => '/login/facebook', 'failure_path' => '/', 'use_forward' => false, 'always_use_default_target_path' => false, 'default_target_path' => '/', 'target_path_parameter' => '_target_path', 'use_referer' => false, 'failure_forward' => false), NULL, NULL, $a, $c, new \Etcpasswd\OAuthBundle\Provider\FacebookProvider($j)), 4 => new \Etcpasswd\OAuthBundle\Security\Http\Firewall\OAuthListener($b, $e, $i, $g, 'main.google', array('client_id' => '345503510563-17mfff3a9htr83c0au3bnupb4os4urc2.apps.googleusercontent.com', 'client_secret' => 'f_huSujGtk7RpfuTbSvwnBX5', 'auth_provider' => 'google', 'scope' => 'https://www.googleapis.com/auth/plus.me', 'check_path' => '/auth/google', 'login_path' => '/login/google', 'failure_path' => '/', 'use_forward' => false, 'always_use_default_target_path' => false, 'default_target_path' => '/', 'target_path_parameter' => '_target_path', 'use_referer' => false, 'failure_forward' => false), NULL, NULL, $a, $c, new \Etcpasswd\OAuthBundle\Provider\GoogleProvider($j)), 5 => new \Symfony\Component\Security\Http\Firewall\AnonymousAuthenticationListener($b, '4e95c07eec1bf', $a), 6 => new \Symfony\Component\Security\Http\Firewall\AccessListener($b, $this->get('security.access.decision_manager'), $f, $e, $a)), new \Symfony\Component\Security\Http\Firewall\ExceptionListener($b, $this->get('security.authentication.trust_resolver'), $g, NULL, NULL, NULL, $a));
+        return $this->services['security.firewall.map.context.main'] = new \Symfony\Bundle\SecurityBundle\Security\FirewallContext(array(0 => new \Symfony\Component\Security\Http\Firewall\ChannelListener($f, new \Symfony\Component\Security\Http\EntryPoint\RetryAuthenticationEntryPoint(), $a), 1 => new \Symfony\Component\Security\Http\Firewall\ContextListener($b, array(0 => $this->get('etcpasswd_oauth.user.provider')), 'main', $a, $c), 2 => $h, 3 => new \Etcpasswd\OAuthBundle\Security\Http\Firewall\OAuthListener($b, $e, $i, $g, 'main.facebook', array('client_id' => '171229729628517', 'client_secret' => '3a6ddf3ae3008f0240ed8709c35034b6', 'auth_provider' => 'facebook', 'scope' => '', 'check_path' => '/auth/facebook', 'login_path' => '/login/facebook', 'failure_path' => '/', 'use_forward' => false, 'always_use_default_target_path' => false, 'default_target_path' => '/', 'target_path_parameter' => '_target_path', 'use_referer' => false, 'failure_forward' => false), NULL, NULL, $a, $c, new \Etcpasswd\OAuthBundle\Provider\FacebookProvider($j)), 4 => new \Etcpasswd\OAuthBundle\Security\Http\Firewall\OAuthListener($b, $e, $i, $g, 'main.google', array('client_id' => '345503510563-17mfff3a9htr83c0au3bnupb4os4urc2.apps.googleusercontent.com', 'client_secret' => 'f_huSujGtk7RpfuTbSvwnBX5', 'auth_provider' => 'google', 'scope' => 'https://www.googleapis.com/auth/plus.me', 'check_path' => '/auth/google', 'login_path' => '/login/google', 'failure_path' => '/', 'use_forward' => false, 'always_use_default_target_path' => false, 'default_target_path' => '/', 'target_path_parameter' => '_target_path', 'use_referer' => false, 'failure_forward' => false), NULL, NULL, $a, $c, new \Etcpasswd\OAuthBundle\Provider\GoogleProvider($j)), 5 => new \Symfony\Component\Security\Http\Firewall\AnonymousAuthenticationListener($b, '4e9756405ce84', $a), 6 => new \Symfony\Component\Security\Http\Firewall\AccessListener($b, $this->get('security.access.decision_manager'), $f, $e, $a)), new \Symfony\Component\Security\Http\Firewall\ExceptionListener($b, $this->get('security.authentication.trust_resolver'), $g, NULL, NULL, NULL, $a));
     }
 
     /**
@@ -2020,7 +2020,7 @@ class appDevDebugProjectContainer extends Container
      */
     protected function getSecurity_Authentication_ManagerService()
     {
-        return $this->services['security.authentication.manager'] = new \Symfony\Component\Security\Core\Authentication\AuthenticationProviderManager(array(0 => $this->get('etcpasswd_oauth.authentication.provider.oauth.main'), 1 => new \Symfony\Component\Security\Core\Authentication\Provider\AnonymousAuthenticationProvider('4e95c07eec1bf')));
+        return $this->services['security.authentication.manager'] = new \Symfony\Component\Security\Core\Authentication\AuthenticationProviderManager(array(0 => $this->get('etcpasswd_oauth.authentication.provider.oauth.main'), 1 => new \Symfony\Component\Security\Core\Authentication\Provider\AnonymousAuthenticationProvider('4e9756405ce84')));
     }
 
     /**
@@ -2535,7 +2535,7 @@ class appDevDebugProjectContainer extends Container
             'fos_facebook.helper.class' => 'FOS\\FacebookBundle\\Templating\\Helper\\FacebookHelper',
             'fos_facebook.twig.class' => 'FOS\\FacebookBundle\\Twig\\Extension\\FacebookExtension',
             'fos_facebook.file' => '/Applications/MAMP/htdocs/Kongress/app/../vendor/facebook/src/base_facebook.php',
-            'fos_facebook.app_id' => 171229729628517,
+            'fos_facebook.app_id' => '171229729628517',
             'fos_facebook.secret' => '3a6ddf3ae3008f0240ed8709c35034b6',
             'fos_facebook.cookie' => true,
             'fos_facebook.domain' => NULL,
