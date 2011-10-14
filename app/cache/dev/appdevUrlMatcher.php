@@ -92,14 +92,6 @@ class appdevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
             return array (  '_controller' => 'Iga\\KongressBundle\\Controller\\DefaultController::indexAction',  '_route' => 'iga_kongress_default_index',);
         }
 
-        // iga_kongress_facebook_index
-        if (rtrim($pathinfo, '/') === '/facebook') {
-            if (substr($pathinfo, -1) !== '/') {
-                return $this->redirect($pathinfo.'/', 'iga_kongress_facebook_index');
-            }
-            return array (  '_controller' => 'Iga\\KongressBundle\\Controller\\FacebookController::indexAction',  '_route' => 'iga_kongress_facebook_index',);
-        }
-
         // secured
         if (rtrim($pathinfo, '/') === '/secured') {
             if (substr($pathinfo, -1) !== '/') {
