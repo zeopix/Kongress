@@ -2,7 +2,7 @@ IgaKongressBundle:
     resource: "@IgaKongressBundle/Controller/"
     type:     annotation
     prefix:   /
-IgaKongressBundle:
+NavisUser:
     resource: "@NavisUserBundle/Controller/"
     type:     annotation
     prefix:   /
