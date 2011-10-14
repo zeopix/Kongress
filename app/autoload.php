@@ -14,7 +14,7 @@ $loader->registerNamespaces(array(
     'Monolog'          => __DIR__.'/../vendor/monolog/src',
     'Assetic'          => __DIR__.'/../vendor/assetic/src',
     'Metadata'         => __DIR__.'/../vendor/metadata/src',
-    'FOS' => __DIR__.'/../vendor/bundles',
+    'FOS'              => __DIR__.'/../vendor/bundles',
     'Etcpasswd'        => __DIR__.'/../vendor/bundles',
     'Buzz'             => __DIR__.'/../vendor/buzz/lib',
 ));
