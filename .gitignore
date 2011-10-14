@@ -1,5 +1,16 @@
 app/cache/*
 app/logs/*
-vendor/*
+vendor/assetic/*
+vendor/buzz/*
+vendor/doctrine/*
+vendor/doctrine-common/*
+vendor/doctrine-dbal/*
+vendor/facebook/*
+vendor/metadata/*
+vendor/monolog/*
+vendor/swiftmailer/*
+vendor/symfony/*
+vendor/twig/*
+vendor/twig-extensions/*
 app/config/parameters.ini
 .idea/*
