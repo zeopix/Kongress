@@ -153,6 +153,16 @@ class appdevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
         }
         not_user_delete:
 
+        // navis_user_default_index
+        if (0 === strpos($pathinfo, '/hello') && preg_match('#^/hello/(?P<name>[^/]+?)$#xs', $pathinfo, $matches)) {
+            return array_merge($this->mergeDefaults($matches, array (  '_controller' => 'Navis\\UserBundle\\Controller\\DefaultController::indexAction',)), array('_route' => 'navis_user_default_index'));
+        }
+
+        // _myspace
+        if ($pathinfo === '/My-Space') {
+            return array (  '_controller' => 'Navis\\UserBundle\\Controller\\MyspaceController::indexAction',  '_route' => '_myspace',);
+        }
+
         // _security_check
         if ($pathinfo === '/login_check') {
             return array('_route' => '_security_check');

@@ -15,9 +15,10 @@ class MyspaceController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getEntityManager();
-        $user = $this->get('security.context')->getToken()->getUser();
-        $userP = $user->getPersistObject();
+        //esto recupera el objeto UserPersist
+        $user = $this->get('security.context')->getToken()->getUser()->getPersistObject($this->get('security.context')->getToken(), $em);
 
+        
         
         return array();
     }

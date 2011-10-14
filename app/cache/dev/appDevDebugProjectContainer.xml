@@ -33,7 +33,7 @@
     <parameter key="database_port"></parameter>
     <parameter key="database_name">kongress</parameter>
     <parameter key="database_user">root</parameter>
-    <parameter key="database_password">uranicius</parameter>
+    <parameter key="database_password">quepasa</parameter>
     <parameter key="mailer_transport">smtp</parameter>
     <parameter key="mailer_host">localhost</parameter>
     <parameter key="mailer_user"></parameter>
@@ -1189,7 +1189,7 @@
         <argument type="service" id="etcpasswd_oauth.authentication.provider.oauth.main"/>
         <argument type="service">
           <service class="Symfony\Component\Security\Core\Authentication\Provider\AnonymousAuthenticationProvider" public="false">
-            <argument>4e984e949a224</argument>
+            <argument>4e9872092b27c</argument>
           </service>
         </argument>
       </argument>
@@ -1384,7 +1384,7 @@
         <argument type="service">
           <service class="Symfony\Component\Security\Http\Firewall\AnonymousAuthenticationListener" public="false">
             <argument type="service" id="security.context"/>
-            <argument>4e984e949a224</argument>
+            <argument>4e9872092b27c</argument>
             <argument type="service" id="monolog.logger.security"/>
           </service>
         </argument>
@@ -1559,7 +1559,7 @@
         <argument key="host">localhost</argument>
         <argument key="port"></argument>
         <argument key="user">root</argument>
-        <argument key="password">uranicius</argument>
+        <argument key="password">quepasa</argument>
         <argument key="driver">pdo_mysql</argument>
         <argument key="driverOptions" type="collection"/>
       </argument>
@@ -1606,7 +1606,7 @@
         <service class="Doctrine\ORM\Configuration" public="false">
           <call method="setEntityNamespaces">
             <argument type="collection">
-              <argument key="IgaKongressBundle">Iga\KongressBundle\Entity</argument>
+              <argument key="NavisUserBundle">Navis\UserBundle\Entity</argument>
             </argument>
           </call>
           <call method="setMetadataCacheImpl">
@@ -1648,11 +1648,11 @@
                         </service>
                       </argument>
                       <argument type="collection">
-                        <argument>/Users/ivanruizdelatorre/Web/Kongress/src/Iga/KongressBundle/Entity</argument>
+                        <argument>/Users/ivanruizdelatorre/Web/Kongress/src/Navis/UserBundle/Entity</argument>
                       </argument>
                     </service>
                   </argument>
-                  <argument>Iga\KongressBundle\Entity</argument>
+                  <argument>Navis\UserBundle\Entity</argument>
                 </call>
               </service>
             </argument>

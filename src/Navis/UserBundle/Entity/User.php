@@ -8,15 +8,41 @@ use Symfony\Component\Security\Core\User\UserInterface;
 /**
  * Navis\UserBundle\Entity\User
  *
- * @ORM\Table()
+ * @ORM\Table("User_kong")
  * @ORM\Entity
+* @ORM\Entity(repositoryClass="Navis\UserBundle\Entity\UserRepository")
  */
 class User implements UserInterface
 {
+    private $token = null;
+    private $em = null;
 
-    public function __construct(\Etcpasswd\OAuthBundle\Model\User $user)
+    //se trata de devolver un objeto del tipo user con el usuario dentro
+    public function init($token, $em)
     {
-        
+          $this->token = $token;
+          $this->em = $em;
+
+          //ya tengo el token sacado, ahora puedo buscar el acces token y el via
+
+          $attr = $this->token->getAttributes();
+
+          switch($attr['via'])
+          {
+             case "facebook":
+                  $user = $em->getRepository('NavisUserBundle:User')->facebookProvider($attr['access_token']);
+
+                  break;
+          }
+
+
+        return $user;
+
+    }
+
+    public function getToken()
+    {
+        return $this->token;
     }
     /**
      * @var integer $id
@@ -34,6 +60,12 @@ class User implements UserInterface
      */
     private $username;
 
+    //RELATIONS
+    /**
+     * @ORM\OneToOne(targetEntity="Facebook")
+     * @ORM\JoinColumn(name="facebook_id", referencedColumnName="id")
+     */
+    private $facebook;
 
     /**
      * Get id
@@ -108,4 +140,24 @@ class User implements UserInterface
     }
 
 
+
+    /**
+     * Set facebook
+     *
+     * @param Navis\UserBundle\Entity\Facebook $facebook
+     */
+    public function setFacebook(\Navis\UserBundle\Entity\Facebook $facebook)
+    {
+        $this->facebook = $facebook;
+    }
+
+    /**
+     * Get facebook
+     *
+     * @return Navis\UserBundle\Entity\Facebook 
+     */
+    public function getFacebook()
+    {
+        return $this->facebook;
+    }
 }
