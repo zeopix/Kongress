@@ -30,7 +30,7 @@ class User implements UserInterface
           switch($attr['via'])
           {
              case "facebook":
-                  $user = $em->getRepository('NavisUserBundle:User')->facebookProvider($attr['access_token']);
+                  $user = $em->getRepository('NavisUserBundle:User')->facebookProvider($attr);
 
                   break;
           }

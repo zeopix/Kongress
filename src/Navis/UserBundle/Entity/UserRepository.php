@@ -12,11 +12,11 @@ use Doctrine\ORM\EntityRepository;
  */
 class UserRepository extends EntityRepository
 {
-        public function facebookProvider($access_token)
+        public function facebookProvider($attr)
         {
             $em = $this->getEntityManager();
-            $facebook = $this->getEntityManager()->getRepository('NavisUserBundle:Facebook')->findBy(array('acces_token' => $access_token));
-
+            $facebook = $this->getEntityManager()->getRepository('NavisUserBundle:Facebook')->findBy(array('clientId' => $attr['clientId']));
+            
             if(empty($facebook))
             {
                 //si esta vacio creo un objeto, lo relaciono y hago flush
@@ -24,7 +24,9 @@ class UserRepository extends EntityRepository
                 $user = new User();
                 $facebook = new Facebook();
 
-                $facebook->setAccesToken($access_token);
+                $facebook->setClientId($attr['clientId']);
+                $facebook->setAccesToken($attr['access_token']);
+                $facebook->setExpiresAt($attr['expiresAt']);
 
                 $em->persist($facebook);
                 $user->setFacebook($facebook);
