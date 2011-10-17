@@ -1,0 +1,99 @@
+<?php
+
+namespace Navis\UserBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Navis\UserBundle\Entity\Facebook
+ *
+ * @ORM\Table()
+ * @ORM\Entity(repositoryClass="Navis\UserBundle\Entity\FacebookRepository")
+ */
+class Facebook
+{
+    /**
+     * @var integer $id
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var string $acces_token
+     *
+     * @ORM\Column(name="acces_token", type="string", length=255)
+     */
+    private $acces_token;
+
+    /**
+     * @var string $expiresAt
+     *
+     * @ORM\Column(name="expiresAt", type="integer", length=12)
+     */
+    private $expiresAt;
+
+    /**
+     * @var string $clientId
+     *
+     * @ORM\Column(name="clientID", type="integer", length=12)
+     */
+    private $clientId;
+    //RELATIONS
+
+    /**
+     * @ORM\OneToOne(targetEntity="User")
+     */
+    private $user;
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set acces_token
+     *
+     * @param string $accesToken
+     */
+    public function setAccesToken($accesToken)
+    {
+        $this->acces_token = $accesToken;
+    }
+
+    /**
+     * Get acces_token
+     *
+     * @return string 
+     */
+    public function getAccesToken()
+    {
+        return $this->acces_token;
+    }
+
+    /**
+     * Set user
+     *
+     * @param Navis\UserBundle\Entity\User $user
+     */
+    public function setUser(\Navis\UserBundle\Entity\User $user)
+    {
+        $this->user = $user;
+    }
+
+    /**
+     * Get user
+     *
+     * @return Navis\UserBundle\Entity\User 
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+}

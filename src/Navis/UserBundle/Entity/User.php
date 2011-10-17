@@ -1,0 +1,309 @@
+<?php
+
+namespace Navis\UserBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
+
+/**
+ * Navis\UserBundle\Entity\User
+ *
+ * @ORM\Table("User_kong")
+ * @ORM\Entity
+* @ORM\Entity(repositoryClass="Navis\UserBundle\Entity\UserRepository")
+ */
+class User implements UserInterface
+{
+    private $token = null;
+    private $em = null;
+    private $sesion = null;
+    private $secretToken;
+
+    //se trata de devolver un objeto del tipo user con el usuario dentro
+    public function init($token, $em, $sesion)
+    {
+          $this->token = $token;
+          $this->em = $em;
+          $this->sesion = $sesion;
+          $this->secretToken = "somoslosputosamos";
+
+        
+          //ya tengo el token sacado, ahora puedo buscar el acces token y el via
+
+          //me paso la sesion para comprobar si estoy conectando 2 cuentas difernetes, hay una variable flash en la sesion
+          //que se llama isLinkin, si es true entonces hay que enlazar la cuenta que esta en el provider con el idUser que
+          //se nos haya mandado
+
+          if($sesion->get('isLinkin') == "1")
+          {
+              //enlazamos la cuenta
+              $user = $this->em->getRepository('NavisUserBundle:User')->findOneBy(array('accessToken' => $sesion->get('accessToken')));
+
+              //lo primero que hago es buscar en google o en facebook para ver si se trata de algo repetid
+              $attr = $this->token->getAttributes();
+
+                  switch($attr['via'])
+                  {
+                     case "facebook":
+
+                          //busco en la bd a ver si el cliente ya esta definido
+
+                          $facebook = $em->getRepository('NavisUserBundle:Facebook')->findOneBy(array('idClient' => $attr['clientId']));
+
+                              if(!empty($facebook))
+                              {
+                                  if($facebook->getUser() != $user)
+                                  {
+                                   $u = $facebook->getUser();
+                                   $facebook->setUser($user);
+                                   $em->persist($facebook);
+
+                                   $em->remove($u);
+                                   $em->flush();
+                                  }
+
+                              }else{
+                                    $provider = $em->getRepository('NavisUserBundle:User')->facebookProvider($attr);
+                                    $user->setFacebook($provider->getFacebook());
+                                    $em->remove($provider);
+                                    $em->flush();
+                              }
+                          break;
+                     case "google":
+                          $provider = $em->getRepository('NavisUserBundle:User')->googleProvider($attr);
+                          $user->setGoogle($provider->getGoogle());
+                          $em->remove($provider);
+                          $em->flush();
+                          break;
+
+                  }
+
+
+
+
+          }
+
+          $attr = $this->token->getAttributes();
+
+          switch($attr['via'])
+          {
+             case "facebook":
+                  $user = $em->getRepository('NavisUserBundle:User')->facebookProvider($attr);
+
+                  break;
+             case "google":
+                  $user = $em->getRepository('NavisUserBundle:User')->googleProvider($attr);
+
+                  break;
+
+          }
+
+        
+        return $user;
+
+    }
+
+    public function getSecretToken()
+    {
+        return $this->secretToken;
+    }
+
+    public function getToken()
+    {
+        return $this->token;
+    }
+    /**
+     * @var integer $id
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var string $username
+     *
+     * @ORM\Column(name="username", type="string", length=255)
+     */
+    private $username;
+
+    /**
+     * @var string $accessToken
+     *
+     * @ORM\Column(name="accessToken", type="string", length=100)
+     */
+    private $accessToken;
+     /**
+     * @var integer $expiresAt
+     *
+     * @ORM\Column(name="expiresAt", type="integer")
+     */
+    private $expiresAt;
+
+
+    //RELATIONS
+    /**
+     * @ORM\OneToOne(targetEntity="Facebook")
+     * @ORM\JoinColumn(name="facebook_id", referencedColumnName="id")
+     */
+    private $facebook;
+    /**
+     * @ORM\OneToOne(targetEntity="Google")
+     * @ORM\JoinColumn(name="google_id", referencedColumnName="id")
+     */
+    private $google;
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set username
+     *
+     * @param string $username
+     */
+    public function setUsername($username)
+    {
+        $this->username = $username;
+    }
+
+    /**
+     * Get username
+     *
+     * @return string 
+     */
+    public function getUsername()
+    {
+        return $this->username;
+    }
+    /**
+     * {@inheritdoc}
+     */
+    function getRoles()
+    {
+        return array('ROLE_USER');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    function getPassword()
+    {
+        return '';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    function getSalt()
+    {
+        return '';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    function eraseCredentials()
+    {
+
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    function equals(UserInterface $user)
+    {
+        return (
+            $user instanceof User
+            && $user->getUsername() === $this->getUsername()
+        );
+    }
+
+
+
+    /**
+     * Set facebook
+     *
+     * @param Navis\UserBundle\Entity\Facebook $facebook
+     */
+    public function setFacebook(\Navis\UserBundle\Entity\Facebook $facebook)
+    {
+        $this->facebook = $facebook;
+    }
+
+    /**
+     * Get facebook
+     *
+     * @return Navis\UserBundle\Entity\Facebook 
+     */
+    public function getFacebook()
+    {
+        return $this->facebook;
+    }
+
+    /**
+     * Set google
+     *
+     * @param Navis\UserBundle\Entity\Google $google
+     */
+    public function setGoogle(\Navis\UserBundle\Entity\Google $google)
+    {
+        $this->google = $google;
+    }
+
+    /**
+     * Get google
+     *
+     * @return Navis\UserBundle\Entity\Google 
+     */
+    public function getGoogle()
+    {
+        return $this->google;
+    }
+
+    /**
+     * Set accessToken
+     *
+     * @param string $accessToken
+     */
+    public function setAccessToken($accessToken)
+    {
+        $this->accessToken = $accessToken;
+    }
+
+    /**
+     * Get accessToken
+     *
+     * @return string 
+     */
+    public function getAccessToken()
+    {
+        return $this->accessToken;
+    }
+
+    /**
+     * Set expiresAt
+     *
+     * @param integer $expiresAt
+     */
+    public function setExpiresAt($expiresAt)
+    {
+        $this->expiresAt = $expiresAt;
+    }
+
+    /**
+     * Get expiresAt
+     *
+     * @return integer 
+     */
+    public function getExpiresAt()
+    {
+        return $this->expiresAt;
+    }
+}

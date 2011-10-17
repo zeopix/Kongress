@@ -1,0 +1,35 @@
+security:
+  firewalls:
+    main:
+      anonymous: true
+      logout: true
+      pattern: ^/
+      oauth_google:
+        auth_provider: "google"
+        client_id: 345503510563-17mfff3a9htr83c0au3bnupb4os4urc2.apps.googleusercontent.com
+        client_secret: f_huSujGtk7RpfuTbSvwnBX5
+        scope: "https://www.googleapis.com/auth/plus.me"
+        login_path: /login/google
+        check_path: /auth/google
+        failure_path: /
+
+      oauth_facebook:
+        auth_provider: "facebook"
+        client_id:     171229729628517
+        client_secret: 3a6ddf3ae3008f0240ed8709c35034b6
+        scope:         ""
+        login_path:    /login/facebook
+        check_path:    /auth/facebook
+        failure_path:  /
+
+  role_hierarchy:
+    ROLE_ADMIN: [ROLE_USER]
+
+  providers:
+    main:
+      id: etcpasswd_oauth.user.provider
+
+  access_control: ~  
+
+  factories:
+    - "%kernel.root_dir%/../vendor/bundles/Etcpasswd/OAuthBundle/Resources/config/security_factories.xml"
