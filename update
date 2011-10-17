@@ -1,4 +1,0 @@
-#!/bin/bash
-git pull origin master
-php app/console cache:clear --env=prod
-chown www-data * -R
