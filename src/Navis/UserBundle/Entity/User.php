@@ -8,7 +8,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 /**
  * Navis\UserBundle\Entity\User
  *
- * @ORM\Table("User_kong")
+ * @ORM\Table("User")
  * @ORM\Entity
 * @ORM\Entity(repositoryClass="Navis\UserBundle\Entity\UserRepository")
  */
@@ -71,6 +71,7 @@ class User implements UserInterface
                               }
                           break;
                      case "google":
+                         
                           $provider = $em->getRepository('NavisUserBundle:User')->googleProvider($attr);
                           $user->setGoogle($provider->getGoogle());
                           $em->remove($provider);

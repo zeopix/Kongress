@@ -20,6 +20,8 @@ class MyspaceController extends Controller
 
         $company = new \Navis\UserBundle\Entity\Company();
         $formCompany = $this->createForm(new \Navis\UserBundle\Form\CompanyType(), $company);
+
+        print_r($this->get('security.context')->getToken());
         return array('User' => $user, 'FormCompany' => $formCompany->createView());
     }
 
