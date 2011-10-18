@@ -27,6 +27,7 @@ class User implements UserInterface
           $this->sesion = $sesion;
           $this->secretToken = "somoslosputosamos";
 
+        
           //ya tengo el token sacado, ahora puedo buscar el acces token y el via
 
           //me paso la sesion para comprobar si estoy conectando 2 cuentas difernetes, hay una variable flash en la sesion
@@ -36,7 +37,50 @@ class User implements UserInterface
           if($sesion->get('isLinkin') == "1")
           {
               //enlazamos la cuenta
-              
+              $user = $this->em->getRepository('NavisUserBundle:User')->findOneBy(array('accessToken' => $sesion->get('accessToken')));
+
+              //lo primero que hago es buscar en google o en facebook para ver si se trata de algo repetid
+              $attr = $this->token->getAttributes();
+
+                  switch($attr['via'])
+                  {
+                     case "facebook":
+
+                          //busco en la bd a ver si el cliente ya esta definido
+
+                          $facebook = $em->getRepository('NavisUserBundle:Facebook')->findOneBy(array('idClient' => $attr['clientId']));
+
+                              if(!empty($facebook))
+                              {
+                                  if($facebook->getUser() != $user)
+                                  {
+                                   $u = $facebook->getUser();
+                                   $facebook->setUser($user);
+                                   $em->persist($facebook);
+
+                                   $em->remove($u);
+                                   $em->flush();
+                                  }
+
+                              }else{
+                                    $provider = $em->getRepository('NavisUserBundle:User')->facebookProvider($attr);
+                                    $user->setFacebook($provider->getFacebook());
+                                    $em->remove($provider);
+                                    $em->flush();
+                              }
+                          break;
+                     case "google":
+                          $provider = $em->getRepository('NavisUserBundle:User')->googleProvider($attr);
+                          $user->setGoogle($provider->getGoogle());
+                          $em->remove($provider);
+                          $em->flush();
+                          break;
+
+                  }
+
+
+
+
           }
 
           $attr = $this->token->getAttributes();
@@ -54,7 +98,7 @@ class User implements UserInterface
 
           }
 
-
+        
         return $user;
 
     }
@@ -87,7 +131,7 @@ class User implements UserInterface
     /**
      * @var string $accessToken
      *
-     * @ORM\Column(name="accessToken", type="string", length=20)
+     * @ORM\Column(name="accessToken", type="string", length=100)
      */
     private $accessToken;
      /**
@@ -109,6 +153,13 @@ class User implements UserInterface
      * @ORM\JoinColumn(name="google_id", referencedColumnName="id")
      */
     private $google;
+
+    /**
+     * @ORM\OneToOne(targetEntity="Company")
+     * @ORM\JoinColumn(name="company_id", referencedColumnName="id")
+     */
+    private $company;
+
     /**
      * Get id
      *
@@ -221,5 +272,45 @@ class User implements UserInterface
     public function getGoogle()
     {
         return $this->google;
+    }
+
+    /**
+     * Set accessToken
+     *
+     * @param string $accessToken
+     */
+    public function setAccessToken($accessToken)
+    {
+        $this->accessToken = $accessToken;
+    }
+
+    /**
+     * Get accessToken
+     *
+     * @return string 
+     */
+    public function getAccessToken()
+    {
+        return $this->accessToken;
+    }
+
+    /**
+     * Set expiresAt
+     *
+     * @param integer $expiresAt
+     */
+    public function setExpiresAt($expiresAt)
+    {
+        $this->expiresAt = $expiresAt;
+    }
+
+    /**
+     * Get expiresAt
+     *
+     * @return integer 
+     */
+    public function getExpiresAt()
+    {
+        return $this->expiresAt;
     }
 }

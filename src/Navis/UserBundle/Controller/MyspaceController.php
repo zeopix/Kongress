@@ -18,14 +18,43 @@ class MyspaceController extends Controller
         //esto recupera el objeto UserPersist
         $user = $this->get('security.context')->getToken()->getUser()->getPersistObject($this->get('security.context')->getToken(), $em, $session = $this->get('request')->getSession());
 
-        
-        //print_r($this->get('security.context')->getToken());
-
-        //$user->getFacebook()->getClientId();
-        return array();
+        $company = new \Navis\UserBundle\Entity\Company();
+        $formCompany = $this->createForm(new \Navis\UserBundle\Form\CompanyType(), $company);
+        return array('User' => $user, 'FormCompany' => $formCompany->createView());
     }
 
-        /**
+    /**
+     * @Route("/Company-Register", name="_myspace_register_company")
+     * @Template()
+     */
+    public function registerCompanyAction()
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        $user = $this->get('security.context')->getToken()->getUser()->getPersistObject($this->get('security.context')->getToken(), $em, $session = $this->get('request')->getSession());
+
+        $company = new \Navis\UserBundle\Entity\Company();
+
+        $formCompany = $this->createForm(new \Navis\UserBundle\Form\CompanyType(), $company);
+
+        $re = $this->get('request');
+
+        if($re->getMethod() == "POST")
+        {
+           $formCompany->bindRequest($re);
+
+           $company->setUser($user);
+           $user->setCompany($company);
+
+           $em->persist($company);
+           $em->persist($user);
+
+           $em->flush();
+        }
+
+        return new \Symfony\Component\HttpFoundation\RedirectResponse($this->get('router')->generate('_myspace'));
+    }
+
+    /**
      * @Route("/My-Space/link-google", name="_myspace_linkGoogle")
      * @Template()
      */

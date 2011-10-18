@@ -1,1 +1,29 @@
 <a href="{{ path('_myspace_linkGoogle')}}">Linkar google</a>
+<br><br>
+{% if User.isCompany %}
+Compañia <b>{{ User.company.name }}</b>
+
+{% else %}
+<h2>Soy empresario!, quiero registrar mi compañia!</h2> 
+<br>
+<form action="{{ path('_myspace_register_company') }}" method="post">
+{{ form_widget(FormCompany) }}
+<input type="submit" value="Registrar">
+</form>
+{% endif %}
+
+<h3>Registrar un evento</h3>
+Existen dos tipos de eventos.
+<ul>
+    <li>Eventos profesionales</li>
+    <li>Eventos personales</li>
+</ul>
+
+Nosotros te ayudaremos a organizar cualquier tipo de evento. <br>
+¿En que se diferencian?<br><br>
+Bien, el evento profesional puede vender entradas y el personal es de entrada libre. <br>
+En un evento personal tan solo puedes invitar a tus amigos de facebook, google + ... <br>
+Ademas en un evento personal no podras tener magicPass (la tecnologia movil que te permite situar y promocionar tu evento)
+
+
+

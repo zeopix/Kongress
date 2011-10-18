@@ -34,11 +34,12 @@ class User implements UserInterface
           //que se llama isLinkin, si es true entonces hay que enlazar la cuenta que esta en el provider con el idUser que
           //se nos haya mandado
 
+
           if($sesion->get('isLinkin') == "1")
           {
               //enlazamos la cuenta
               $user = $this->em->getRepository('NavisUserBundle:User')->findOneBy(array('accessToken' => $sesion->get('accessToken')));
-
+              //@todo mirar si no se ha acabado la sesion
               //lo primero que hago es buscar en google o en facebook para ver si se trata de algo repetid
               $attr = $this->token->getAttributes();
 
@@ -153,6 +154,13 @@ class User implements UserInterface
      * @ORM\JoinColumn(name="google_id", referencedColumnName="id")
      */
     private $google;
+
+    /**
+     * @ORM\OneToOne(targetEntity="Company")
+     * @ORM\JoinColumn(name="company_id", referencedColumnName="id")
+     */
+    private $company;
+
     /**
      * Get id
      *
@@ -305,5 +313,35 @@ class User implements UserInterface
     public function getExpiresAt()
     {
         return $this->expiresAt;
+    }
+
+    /**
+     * Set company
+     *
+     * @param Navis\UserBundle\Entity\Company $company
+     */
+    public function setCompany(\Navis\UserBundle\Entity\Company $company)
+    {
+        $this->company = $company;
+    }
+
+    /**
+     * Get company
+     *
+     * @return Navis\UserBundle\Entity\Company 
+     */
+    public function getCompany()
+    {
+        return $this->company;
+    }
+
+    public function getIsCompany()
+    {
+        if(empty($this->company))
+        {
+            return false;
+        }else{
+            return true;
+        }
     }
 }

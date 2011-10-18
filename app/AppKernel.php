@@ -21,6 +21,7 @@ class AppKernel extends Kernel
             new Iga\KongressBundle\IgaKongressBundle(),
 	        new Etcpasswd\OAuthBundle\EtcpasswdOAuthBundle(),
             new Navis\UserBundle\NavisUserBundle(),
+            new Navis\EventBundle\NavisEventBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
